@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>季度工作方案.docx - Word</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ Word 主窗口 ============ -->
+<div class="word-window">
+
+  <!-- 标题栏 -->
+  <div class="title-bar">
+    <div class="title-bar-left">
+      <span class="app-icon">W</span>
+      <span class="app-title">季度工作方案.docx - Word</span>
+    </div>
+    <div class="title-bar-right">
+      <button class="win-btn min" title="最小化">—</button>
+      <button class="win-btn max" title="最大化">▢</button>
+      <button class="win-btn close" title="关闭">✕</button>
+    </div>
+  </div>
+
+  <!-- Ribbon Tab 栏 -->
+  <div class="menu-bar">
+    <button class="menu-item">文件</button>
+    <button class="menu-item active" data-tab="reader">开始</button>
+    <button class="menu-item">插入</button>
+    <button class="menu-item">设计</button>
+    <button class="menu-item">布局</button>
+    <button class="menu-item">引用</button>
+    <button class="menu-item" data-tab="vote">审阅</button>
+    <button class="menu-item">视图</button>
+    <span class="menu-spacer"></span>
+    <span class="menu-user">👤 用户</span>
+  </div>
+
+  <!-- Ribbon 工具栏 -->
+  <div class="toolbar">
+    <div class="ribbon-group">
+      <div class="ribbon-buttons">
+        <label class="tool-btn" title="打开">
+          <input type="file" id="fileInput" accept=".txt,text/plain" hidden>
+          <span class="tb-icon">⤓</span><span class="tb-label">打开</span>
+        </label>
+        <button class="tool-btn" id="urlBtn" title="从网页获取">
+          <span class="tb-icon">⌕</span><span class="tb-label">网页</span>
+        </button>
+      </div>
+      <div class="ribbon-group-label">剪贴板</div>
+    </div>
+
+    <div class="tool-sep"></div>
+
+    <div class="ribbon-group">
+      <div class="ribbon-buttons">
+        <button class="tool-btn tb-primary" id="playBtn" title="播放/暂停">
+          <span class="tb-icon">▶</span><span class="tb-label">播放</span>
+        </button>
+        <button class="tool-btn" id="resetBtn" title="重置">
+          <span class="tb-icon">⟲</span><span class="tb-label">重置</span>
+        </button>
+      </div>
+      <div class="ribbon-group-label">文档</div>
+    </div>
+
+    <div class="tool-sep"></div>
+
+    <div class="ribbon-group">
+      <div class="ribbon-buttons">
+        <button class="tool-btn" id="speedDown" title="减速">
+          <span class="tb-icon">−</span>
+        </button>
+        <div class="tb-speed-box">
+          <span id="speedVal">正常</span>
+        </div>
+        <button class="tool-btn" id="speedUp" title="加速">
+          <span class="tb-icon">+</span>
+        </button>
+      </div>
+      <div class="ribbon-group-label">速度</div>
+    </div>
+
+    <div class="toolbar-right">
+      <span class="page-info">字数：<span id="progressCur">0</span> / <span id="progressTotal">0</span></span>
+    </div>
+  </div>
+
+  <!-- 主体区域 -->
+  <div class="main-body">
+
+    <!-- 侧边栏：伪装成 Word 导航窗格 -->
+    <aside class="sidebar">
+      <div class="sidebar-header">导航</div>
+      <div class="sidebar-tabs">
+        <button class="sb-tab active">标题</button>
+        <button class="sb-tab">页面</button>
+        <button class="sb-tab">结果</button>
+      </div>
+      <div class="sidebar-content">
+        <ul class="history-list" id="historyList">
+          <li class="empty-hint">— 无标题 —</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- 内容区 -->
+    <main class="content-area" id="contentArea">
+
+      <!-- 阅读视图：A4 纸张 -->
+      <section class="view active" id="view-reader">
+        <div class="page-wrap">
+          <div class="page-paper" id="paper">
+            <p class="doc-title" id="novelTitle">季度工作方案</p>
+            <div class="novel-content" id="novelContent">
+              <p class="intro-text">
+                一、工作目标<br><br>
+                本季度，我们将围绕以下几个方面展开工作……<br><br>
+                <span class="doc-hint">（点击页面任意位置开始阅读）</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 投票视图：伪装成审阅批注面板 -->
+      <section class="view" id="view-vote">
+        <div class="review-panel">
+          <div class="review-toolbar">
+            <h3>批注</h3>
+            <button class="btn-create" id="createVoteBtn">＋ 新建批注</button>
+          </div>
+          <div class="vote-list" id="voteList">
+            <div class="empty-vote">
+              <p>尚未添加批注</p>
+              <button class="btn-create" style="margin-top:12px;">＋ 新建批注</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- 状态栏 -->
+  <div class="status-bar">
+    <span id="statusLeft">第 1 页，共 1 页</span>
+    <span class="status-sep"></span>
+    <span>字数 <span id="statusWords">0</span></span>
+    <span class="status-sep"></span>
+    <span id="statusCenter">中文(中国)</span>
+    <span class="status-spacer"></span>
+    <span id="statusRight">100%</span>
+  </div>
+
+</div>
+
+<!-- ============ 网址输入弹窗 ============ -->
+<div class="modal-overlay" id="urlModal">
+  <div class="modal-box">
+    <h3>从网页获取文本</h3>
+    <p class="modal-hint">输入要读取的网页地址：</p>
+    <input type="url" id="urlInput" placeholder="https://..." />
+    <div class="modal-actions">
+      <button class="btn-cancel" data-close="urlModal">取消</button>
+      <button class="btn-ok" id="urlFetchBtn">确定</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 创建投票弹窗（伪装成新建批注） ============ -->
+<div class="modal-overlay" id="voteModal">
+  <div class="modal-box">
+    <h3>新建批注</h3>
+    <div class="form-row">
+      <label>批注内容：</label>
+      <input type="text" id="voteTopic" placeholder="例如：今晚谁要加班？" />
+    </div>
+    <div class="form-row">
+      <label>回复选项：</label>
+      <div id="voteOptions">
+        <input type="text" placeholder="同意" />
+        <input type="text" placeholder="反对" />
+      </div>
+      <button class="btn-add-option" id="addOptionBtn">+ 添加选项</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" data-close="voteModal">取消</button>
+      <button class="btn-ok" id="voteCreateBtn">创建批注</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Firebase SDK ============ -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script src="js/firebase-config.js"></script>
+<script src="js/novel.js"></script>
+<script src="js/voting.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
